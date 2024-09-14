@@ -8,19 +8,17 @@ import { DashboardContent, DashboardHeader, DashboardSidebar } from "./ui";
 
 function Dashboard() {
   const sidebarVisibility = useVisibility(true);
-  const { fetchAllData } = rootStore.dashboard;
+  const { didMount } = rootStore;
 
   useEffect(() => {
-    fetchAllData();
-  }, [fetchAllData]);
+    didMount();
+  }, [didMount]);
 
   return (
     <div className={styles.container}>
       <DashboardHeader
         className={styles.header}
-        username="John Doe"
         isSidebarVisible={sidebarVisibility.visible}
-        image="https://avatars.githubusercontent.com/u/67115618?v=4"
       />
       <div className={styles.content}>
         <DashboardSidebar

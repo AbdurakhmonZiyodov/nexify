@@ -109,8 +109,8 @@ class Api {
     return this.axios.post<LoginResponse>(this.urls.login, credentials);
   };
 
-  public me = async (): Promise<AxiosResponse> => {
-    return this.axios.get(this.urls.me);
+  public me = async (): Promise<AxiosResponse<User>> => {
+    return this.axios.get<User>(this.urls.me);
   };
 
   private async refreshToken(): Promise<AxiosResponse> {

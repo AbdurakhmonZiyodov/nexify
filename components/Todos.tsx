@@ -1,5 +1,6 @@
 import { Todo } from "@/api/api.types";
 import { map } from "lodash";
+import { observer } from "mobx-react-lite";
 import { useCallback } from "react";
 
 const TodoItem = ({ todo, completed, userId }: Todo) => (
@@ -20,7 +21,7 @@ const TodoItem = ({ todo, completed, userId }: Todo) => (
   </div>
 );
 
-export default function Todos({ todos }: { todos: Todo[] }) {
+function Todos({ todos }: { todos: Todo[] }) {
   const renderTodo = useCallback(
     (todo: Todo) => <TodoItem {...todo} key={todo.id} />,
     []
@@ -34,3 +35,5 @@ export default function Todos({ todos }: { todos: Todo[] }) {
     </div>
   );
 }
+
+export default observer(Todos);

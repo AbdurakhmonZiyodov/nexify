@@ -1,5 +1,6 @@
 import { Post } from "@/api/api.types";
 import { map } from "lodash";
+import { observer } from "mobx-react-lite";
 import { useCallback } from "react";
 
 const PostItem = ({ title, body, tags, reactions, views }: Post) => (
@@ -31,7 +32,7 @@ const PostItem = ({ title, body, tags, reactions, views }: Post) => (
   </div>
 );
 
-export default function Posts({ posts }: { posts: Post[] }) {
+function Posts({ posts }: { posts: Post[] }) {
   const renderPost = useCallback(
     (post: Post) => <PostItem {...post} key={post.id} />,
     []
@@ -45,3 +46,5 @@ export default function Posts({ posts }: { posts: Post[] }) {
     </div>
   );
 }
+
+export default observer(Posts);

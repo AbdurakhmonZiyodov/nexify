@@ -1,5 +1,6 @@
 import { User } from "@/api/api.types";
 import { map } from "lodash";
+import { observer } from "mobx-react-lite";
 import Image from "next/image";
 import { useCallback } from "react";
 
@@ -36,4 +37,4 @@ function Users({ users = [] }: { users: User[] }) {
   );
 }
 
-export default Users;
+export default observer(Users);

@@ -3,7 +3,7 @@ import RootStore from "./root.store";
 import cookieManager from "@/utils/cookies";
 import { makeAutoObservable } from "mobx";
 import { Operation } from "@/utils/Operation";
-import { LoginResponse } from "@/api/api.types";
+import { LoginResponse, User } from "@/api/api.types";
 
 export default class AuthStore {
   private readonly rootStore: RootStore;
@@ -11,6 +11,7 @@ export default class AuthStore {
   public username: string = "";
   public password: string = "";
   public loginOperation = new Operation<LoginResponse>({} as LoginResponse);
+  private getMeOperation = new Operation<User>({} as User);
 
   constructor(root: RootStore) {
     this.rootStore = root;
@@ -51,6 +52,14 @@ export default class AuthStore {
     api.clearRefreshToken();
     push("/login");
   };
+
+  public getMe = async () => {
+    await this.getMeOperation.run(api.me);
+  };
+
+  public get user(): User {
+    return this.getMeOperation.data || ({} as User);
+  }
 
   public get isAuthenticated(): boolean {
     const token = cookieManager.getCookie("token");

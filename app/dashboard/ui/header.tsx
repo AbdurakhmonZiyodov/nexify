@@ -1,21 +1,18 @@
 "use client";
 
-import { User } from "@/api/api.types";
 import { Avatar, Box, Toolbar, Typography } from "@mui/material";
-import { FC } from "react";
 import { getSidebarWidth } from "../dashboard.utils";
+import { rootStore } from "@/store/root.store";
+import { observer } from "mobx-react-lite";
 
-type HeaderProps = Pick<User, "username" | "image"> & {
+const Header = ({
+  isSidebarVisible,
+  className,
+}: {
   className?: string;
   isSidebarVisible: boolean;
-};
-
-const Header: FC<HeaderProps> = ({
-  image,
-  username,
-  className,
-  isSidebarVisible,
 }) => {
+  const { user } = rootStore.auth;
   return (
     <div
       className={`${className} shadow pb-2`}
@@ -34,9 +31,9 @@ const Header: FC<HeaderProps> = ({
             Nexify
           </Typography>
           <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
-            <Avatar src={image} sx={{ width: "35px", height: "35px" }} />
+            <Avatar src={user.image} sx={{ width: "35px", height: "35px" }} />
             <Typography variant="body2" color="info">
-              {username}
+              {user.username}
             </Typography>
           </Box>
         </Box>
@@ -45,4 +42,4 @@ const Header: FC<HeaderProps> = ({
   );
 };
 
-export default Header;
+export default observer(Header);

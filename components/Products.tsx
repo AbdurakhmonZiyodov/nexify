@@ -1,5 +1,6 @@
 import { Product } from "@/api/api.types";
 import { map } from "lodash";
+import { observer } from "mobx-react-lite";
 import Image from "next/image";
 import { useCallback } from "react";
 
@@ -46,7 +47,7 @@ const ProductItem = ({
   </div>
 );
 
-export default function Products({ products }: { products: Product[] }) {
+function Products({ products }: { products: Product[] }) {
   const renderProduct = useCallback(
     (product: Product) => <ProductItem {...product} key={product.id} />,
     []
@@ -61,3 +62,5 @@ export default function Products({ products }: { products: Product[] }) {
     </div>
   );
 }
+
+export default observer(Products);
