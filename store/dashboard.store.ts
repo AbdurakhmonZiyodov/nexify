@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import api from "@/api";
 import { Post, Product, Todo, User } from "@/api/api.types";
 import RootStore from "./root.store";
+import { Operation } from "@/utils/Operation";
 
 export enum DashboardTabs {
   USERS = "Users",
@@ -11,10 +12,19 @@ export enum DashboardTabs {
 }
 
 export default class DashboardStore {
-  public users: User[] = [];
-  public posts: Post[] = [];
-  public products: Product[] = [];
-  public todos: Todo[] = [];
+  private getAllUsersOperation = new Operation<{
+    users: User[];
+  }>({ users: [] });
+  private getAllPostsOperation = new Operation<{
+    posts: Post[];
+  }>({ posts: [] });
+  private getAllProductsOperation = new Operation<{
+    products: Product[];
+  }>({ products: [] });
+  private getAllTodosOperation = new Operation<{
+    todos: Todo[];
+  }>({ todos: [] });
+
   public tab: DashboardTabs = DashboardTabs.USERS;
 
   private readonly rootStore: RootStore;
@@ -25,24 +35,36 @@ export default class DashboardStore {
   }
 
   private fetchUsers = async () => {
-    const users = await api.getAllUsers();
-    this.users = users.data.users;
+    await this.getAllUsersOperation.run(() => api.getAllUsers());
   };
 
   private fetchPosts = async () => {
-    const posts = await api.getAllPosts();
-    this.posts = posts.data.posts;
+    await this.getAllPostsOperation.run(() => api.getAllPosts());
   };
 
   private fetchProducts = async () => {
-    const products = await api.getAllProducts();
-    this.products = products.data.products;
+    await this.getAllProductsOperation.run(() => api.getAllProducts());
   };
 
   private fetchTodos = async () => {
-    const todos = await api.getAllTodos();
-    this.todos = todos.data.todos;
+    await this.getAllTodosOperation.run(() => api.getAllTodos());
   };
+
+  public get users(): User[] {
+    return this.getAllUsersOperation.data.users;
+  }
+
+  public get posts(): Post[] {
+    return this.getAllPostsOperation.data.posts;
+  }
+
+  public get products(): Product[] {
+    return this.getAllProductsOperation.data.products;
+  }
+
+  public get todos(): Todo[] {
+    return this.getAllTodosOperation.data.todos;
+  }
 
   public fetchAllData = async () => {
     try {
