@@ -45,7 +45,10 @@ export default class AuthStore {
       const { token, refreshToken } = this.loginOperation.data;
       api.setAccessToken(token);
       api.setRefreshToken(refreshToken);
-      push("/dashboard");
+      setTimeout(() => {
+        push("/dashboard");
+      }, 0);
+      // window.location.reload();
     }
   };
 
