@@ -4,6 +4,7 @@ import Axios, {
   InternalAxiosRequestConfig,
   AxiosResponse,
 } from "axios";
+import { LoginResponse, Post, Product, Todo, User } from "./api.types";
 import { API_REQUEST_TIMEOUT, API_URL } from "./api.constants";
 import cookieManager from "@/utils/cookies";
 import { DAY } from "@/utils/date";
@@ -23,7 +24,10 @@ class Api {
     login: "/auth/login",
     me: "/auth/me",
 
-    // Users (add more endpoints as needed)
+    allUsers: "/users",
+    allProducts: "/products",
+    allPosts: "/posts",
+    allTodos: "/todos",
   };
 
   constructor() {
@@ -101,8 +105,8 @@ class Api {
   public login = async (credentials: {
     username: string;
     password: string;
-  }): Promise<AxiosResponse> => {
-    return this.axios.post(this.urls.login, credentials);
+  }): Promise<AxiosResponse<LoginResponse>> => {
+    return this.axios.post<LoginResponse>(this.urls.login, credentials);
   };
 
   public me = async (): Promise<AxiosResponse> => {
@@ -120,6 +124,28 @@ class Api {
       }
     );
   }
+
+  // User methods
+  public getAllUsers = async (): Promise<AxiosResponse<{ users: User[] }>> => {
+    return this.axios.get<{ users: User[] }>(this.urls.allUsers);
+  };
+
+  // Product methods
+  public getAllProducts = async (): Promise<
+    AxiosResponse<{ products: Product[] }>
+  > => {
+    return this.axios.get<{ products: Product[] }>(this.urls.allProducts);
+  };
+
+  // Post methods
+  public getAllPosts = async (): Promise<AxiosResponse<{ posts: Post[] }>> => {
+    return this.axios.get<{ posts: Post[] }>(this.urls.allPosts);
+  };
+
+  // Todo methods
+  public getAllTodos = async (): Promise<AxiosResponse<{ todos: Todo[] }>> => {
+    return this.axios.get<{ todos: Todo[] }>(this.urls.allTodos);
+  };
 }
 
 const api = new Api();

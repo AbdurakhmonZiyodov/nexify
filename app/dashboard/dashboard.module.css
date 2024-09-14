@@ -1,0 +1,26 @@
+/* dashboard.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+}
+
+.header {
+  @apply transition-all duration-300 fixed right-0 bg-white;
+}
+
+.sidebar {
+  background-color: white;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 16px;
+  background-color: white;
+  padding-top: 80px;
+}
