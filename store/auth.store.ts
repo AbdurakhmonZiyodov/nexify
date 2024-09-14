@@ -13,6 +13,8 @@ export default class AuthStore {
   public loginOperation = new Operation<LoginResponse>({} as LoginResponse);
   private getMeOperation = new Operation<User>({} as User);
 
+  loadingOfCookies = false;
+
   constructor(root: RootStore) {
     this.rootStore = root;
     makeAutoObservable(this);
@@ -62,7 +64,9 @@ export default class AuthStore {
   }
 
   public get isAuthenticated(): boolean {
+    this.loadingOfCookies = true;
     const token = cookieManager.getCookie("token");
+    this.loadingOfCookies = false;
     return !!token;
   }
 }

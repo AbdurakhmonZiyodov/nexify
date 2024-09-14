@@ -5,12 +5,20 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 const AuthWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = rootStore.auth;
+  const { isAuthenticated, loadingOfCookies } = rootStore.auth;
   const { push } = useRouter();
 
   useEffect(() => {
-    push(isAuthenticated ? "/dashboard" : "/login");
-  }, [isAuthenticated, push]);
+    if (!loadingOfCookies && !isAuthenticated) {
+      push("/login");
+    } else if (!loadingOfCookies && isAuthenticated) {
+      push("/dashboard");
+    }
+  }, [isAuthenticated, loadingOfCookies, push]);
+
+  if (loadingOfCookies) {
+    return <div>Loading...</div>;
+  }
 
   return <>{children}</>;
 };

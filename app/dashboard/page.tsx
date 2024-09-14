@@ -7,7 +7,7 @@ import styles from "./dashboard.module.css";
 import { DashboardContent, DashboardHeader, DashboardSidebar } from "./ui";
 
 function Dashboard() {
-  const sidebarVisibility = useVisibility(true);
+  const sidebarVisibility = useVisibility();
   const { didMount } = rootStore;
 
   useEffect(() => {
