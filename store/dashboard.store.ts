@@ -79,7 +79,7 @@ export default class DashboardStore {
     }
   };
 
-  setTab = async (tab: DashboardTabs) => {
+  public setTab = async (tab: DashboardTabs) => {
     this.tab = tab;
   };
 }
