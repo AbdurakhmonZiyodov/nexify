@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from "react";
 
 const useVisibility = (initialState?: boolean) => {
   const [visible, setVisible] = useState(initialState || false);
@@ -16,16 +16,10 @@ const useVisibility = (initialState?: boolean) => {
       toggle,
       set,
     }),
-    [visible, show, hide, toggle, set],
+    [visible, show, hide, toggle, set]
   );
 };
 
-export type UseVisibility = {
-  visible: boolean;
-  show: () => void;
-  hide: () => void;
-  toggle: () => void;
-  set: (neeValue: boolean) => void;
-};
+export type UseVisibility = ReturnType<typeof useVisibility>;
 
 export default useVisibility;
